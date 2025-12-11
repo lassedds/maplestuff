@@ -21,6 +21,10 @@ class Settings(BaseSettings):
     # Redis
     redis_url: str = "redis://localhost:6379"
 
+    # Session settings
+    session_ttl_seconds: int = 60 * 60 * 24 * 7  # 7 days
+    session_cookie_name: str = "gmstracker_session"
+
     # Discord OAuth
     discord_client_id: str = ""
     discord_client_secret: str = ""

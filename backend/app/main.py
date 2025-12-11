@@ -3,16 +3,38 @@ MapleHub OSS - FastAPI Backend
 Main application entry point
 """
 
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.routers import characters_router
+from app.redis import init_redis, close_redis, redis_client
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Application lifespan manager for startup/shutdown."""
+    # Startup
+    try:
+        await init_redis()
+        print("Redis connected")
+    except Exception as e:
+        print(f"Redis connection failed (will retry on use): {e}")
+
+    yield
+
+    # Shutdown
+    await close_redis()
+    print("Redis disconnected")
+
 
 app = FastAPI(
     title="MapleHub OSS API",
     description="Open-source MapleStory companion with boss tracking and community drop statistics",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 # CORS middleware for frontend
@@ -31,7 +53,12 @@ app.include_router(characters_router, prefix="/api")
 @app.get("/health")
 async def health_check():
     """Health check endpoint for monitoring."""
-    return {"status": "healthy", "version": "0.1.0"}
+    redis_status = "connected" if redis_client else "disconnected"
+    return {
+        "status": "healthy",
+        "version": "0.1.0",
+        "redis": redis_status,
+    }
 
 
 @app.get("/")
