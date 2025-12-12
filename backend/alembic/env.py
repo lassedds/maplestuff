@@ -17,7 +17,7 @@ from app.config import settings
 from app.database import Base
 
 # Import all models so Alembic can detect them for autogenerate
-from app.models import User, Character, UserSettings  # noqa: F401
+from app.models import User, Character, UserSettings, Boss, Item, BossDropTable  # noqa: F401
 
 # Alembic Config object
 config = context.config

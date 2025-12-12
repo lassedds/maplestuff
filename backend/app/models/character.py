@@ -37,6 +37,11 @@ class Character(Base, UUIDMixin, TimestampMixin):
 
     # Relationships
     user: Mapped["User"] = relationship("User", back_populates="characters")
+    boss_runs: Mapped[list["BossRun"]] = relationship(
+        "BossRun",
+        back_populates="character",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return f"<Character {self.character_name} ({self.world})>"
@@ -44,3 +49,4 @@ class Character(Base, UUIDMixin, TimestampMixin):
 
 # Import here to avoid circular imports
 from app.models.user import User
+from app.models.boss_run import BossRun

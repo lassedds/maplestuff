@@ -38,6 +38,15 @@ class User(Base, UUIDMixin, TimestampMixin):
         uselist=False,
         cascade="all, delete-orphan",
     )
+    user_tasks: Mapped[list["UserTask"]] = relationship(
+        "UserTask",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    created_tasks: Mapped[list["Task"]] = relationship(
+        "Task",
+        back_populates="created_by",
+    )
 
     def __repr__(self) -> str:
         return f"<User {self.discord_username} ({self.discord_id})>"
@@ -46,3 +55,4 @@ class User(Base, UUIDMixin, TimestampMixin):
 # Import here to avoid circular imports
 from app.models.character import Character
 from app.models.user_settings import UserSettings
+from app.models.task import Task, UserTask
