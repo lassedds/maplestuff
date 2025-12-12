@@ -49,6 +49,21 @@ from app.schemas.stats import (
     LeaderboardEntry,
     RareDropsLeaderboardResponse,
 )
+from app.schemas.task import (
+    TaskCreate,
+    TaskUpdate,
+    TaskResponse,
+    TaskListResponse,
+    UserTaskCreate,
+    UserTaskUpdate,
+    UserTaskResponse,
+    UserTaskWithCompletionResponse,
+    UserTaskListResponse,
+    TaskCompletionCreate,
+    TaskCompletionResponse,
+    DailyChecklistResponse,
+    WeeklyChecklistResponse,
+)
 
 __all__ = [
     "UserCreate",
@@ -86,4 +101,17 @@ __all__ = [
     "CommunityStatsOverview",
     "LeaderboardEntry",
     "RareDropsLeaderboardResponse",
+    "TaskCreate",
+    "TaskUpdate",
+    "TaskResponse",
+    "TaskListResponse",
+    "UserTaskCreate",
+    "UserTaskUpdate",
+    "UserTaskResponse",
+    "UserTaskWithCompletionResponse",
+    "UserTaskListResponse",
+    "TaskCompletionCreate",
+    "TaskCompletionResponse",
+    "DailyChecklistResponse",
+    "WeeklyChecklistResponse",
 ]
