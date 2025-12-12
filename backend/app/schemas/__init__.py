@@ -16,6 +16,18 @@ from app.schemas.character import (
     CharacterResponse,
     CharacterListResponse,
 )
+from app.schemas.boss import (
+    BossResponse,
+    BossWithDropsResponse,
+    BossListResponse,
+    ItemDropResponse,
+)
+from app.schemas.item import (
+    ItemResponse,
+    ItemWithSourcesResponse,
+    ItemListResponse,
+    BossSourceResponse,
+)
 
 __all__ = [
     "UserCreate",
@@ -28,4 +40,12 @@ __all__ = [
     "CharacterUpdate",
     "CharacterResponse",
     "CharacterListResponse",
+    "BossResponse",
+    "BossWithDropsResponse",
+    "BossListResponse",
+    "ItemDropResponse",
+    "ItemResponse",
+    "ItemWithSourcesResponse",
+    "ItemListResponse",
+    "BossSourceResponse",
 ]
