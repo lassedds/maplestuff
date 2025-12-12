@@ -33,6 +33,10 @@ class Boss(Base):
         back_populates="boss",
         cascade="all, delete-orphan",
     )
+    runs: Mapped[list["BossRun"]] = relationship(
+        "BossRun",
+        back_populates="boss",
+    )
 
     def __repr__(self) -> str:
         if self.difficulty:
@@ -49,3 +53,4 @@ class Boss(Base):
 
 # Import here to avoid circular imports
 from app.models.boss_drop_table import BossDropTable
+from app.models.boss_run import BossRun
