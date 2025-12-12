@@ -11,6 +11,12 @@ from app.services.rate_limit import (
     lenient_limiter,
     check_rate_limit,
 )
+from app.services.discord_oauth import (
+    DiscordOAuthClient,
+    DiscordOAuthError,
+    DiscordUser,
+    discord_oauth,
+)
 
 __all__ = [
     "SessionService",
@@ -21,4 +27,8 @@ __all__ = [
     "strict_limiter",
     "lenient_limiter",
     "check_rate_limit",
+    "DiscordOAuthClient",
+    "DiscordOAuthError",
+    "DiscordUser",
+    "discord_oauth",
 ]

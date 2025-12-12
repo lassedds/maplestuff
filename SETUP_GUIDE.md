@@ -49,24 +49,61 @@ REDIS_URL=redis://localhost:6379
 
 ### 3. Discord OAuth Application
 **Status:** Required for user authentication
-**When needed:** Step 6-9 (Auth implementation)
+**When needed:** Step 6+ (Auth implementation)
 
-**Setup steps:**
-1. Go to https://discord.com/developers/applications
-2. Click "New Application"
-3. Name it (e.g., "GMSTracker")
-4. Go to OAuth2 → General
-5. Add redirect URI: `http://localhost:3000/api/auth/discord/callback`
-6. Copy Client ID and Client Secret
+**Detailed Setup Steps:**
+
+1. **Go to Discord Developer Portal**
+   - Visit: https://discord.com/developers/applications
+   - Log in with your Discord account
+
+2. **Create New Application**
+   - Click "New Application" button (top right)
+   - Name it "GMSTracker" (or your preferred name)
+   - Accept the Terms of Service
+   - Click "Create"
+
+3. **Get Client ID**
+   - You're now on the application page
+   - Under "General Information" tab
+   - Copy the "Application ID" - this is your `DISCORD_CLIENT_ID`
+
+4. **Get Client Secret**
+   - Go to "OAuth2" → "General" in the left sidebar
+   - Under "Client Secret", click "Reset Secret"
+   - Copy the secret - this is your `DISCORD_CLIENT_SECRET`
+   - ⚠️ **Save this immediately** - you can't see it again!
+
+5. **Configure Redirect URI**
+   - Still in "OAuth2" → "General"
+   - Under "Redirects", click "Add Redirect"
+   - For local development, add: `http://localhost:8000/api/auth/discord/callback`
+   - For production, add your actual domain
+   - Click "Save Changes"
 
 **What to provide:**
 ```
-DISCORD_CLIENT_ID=your_client_id_here
+DISCORD_CLIENT_ID=your_application_id_here
 DISCORD_CLIENT_SECRET=your_client_secret_here
-DISCORD_REDIRECT_URI=http://localhost:3000/api/auth/discord/callback
+DISCORD_REDIRECT_URI=http://localhost:8000/api/auth/discord/callback
 ```
 
-**Scopes needed:** `identify` (just basic user info)
+**Auth Flow:**
+```
+User clicks "Login with Discord"
+    ↓
+GET /api/auth/discord → Redirects to Discord
+    ↓
+User authorizes on Discord
+    ↓
+Discord redirects to /api/auth/discord/callback
+    ↓
+Backend exchanges code for token, creates session
+    ↓
+User redirected to frontend with session cookie
+```
+
+**Scopes used:** `identify` (just basic user info - no access to servers, messages, etc.)
 
 ---
 
