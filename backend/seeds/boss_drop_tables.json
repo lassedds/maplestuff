@@ -1,0 +1,247 @@
+{
+  "drop_tables": [
+    {
+      "boss": {"name": "Zakum", "difficulty": "Chaos"},
+      "drops": [
+        {"item": "Enraged Zakum Helmet", "is_guaranteed": false},
+        {"item": "Condensed Power Crystal", "is_guaranteed": false},
+        {"item": "Occult Cube", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Magnus", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Royal Black Metal Shoulder", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Condensed Power Crystal", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Hilla", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Black Heart", "is_guaranteed": false},
+        {"item": "Condensed Power Crystal", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Pink Bean", "difficulty": "Chaos"},
+      "drops": [
+        {"item": "Pink Bean Mark (Chair)", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Condensed Power Crystal", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Cygnus", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Condensed Power Crystal", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Horntail", "difficulty": "Chaos"},
+      "drops": [
+        {"item": "Chaos Horntail Necklace", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Papulatus", "difficulty": "Chaos"},
+      "drops": [
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Condensed Power Crystal", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Lotus", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Absolab Weapon Box", "is_guaranteed": false},
+        {"item": "Absolab Armor Box", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Diffusion Line Energy (Core)", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Lotus", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Absolab Weapon Box", "is_guaranteed": false},
+        {"item": "Absolab Armor Box", "is_guaranteed": false},
+        {"item": "Absolab Shoulder", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Diffusion Line Energy (Core)", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Damien", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Absolab Weapon Box", "is_guaranteed": false},
+        {"item": "Absolab Armor Box", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Twilight Mark", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Damien", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Absolab Weapon Box", "is_guaranteed": false},
+        {"item": "Absolab Armor Box", "is_guaranteed": false},
+        {"item": "Absolab Shoulder", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Twilight Mark", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Lucid", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Lucid", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Hat", "is_guaranteed": false},
+        {"item": "Arcane Umbra Shoes", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Diffusion Line Energy (Core)", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Will", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Will", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Gloves", "is_guaranteed": false},
+        {"item": "Arcane Umbra Overall", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Endless Terror", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Gloom", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Gloom", "difficulty": "Chaos"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Cape", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Faint Stigma Spirit Stone", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Darknell", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Darknell", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Shoulder", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Stigma Spirit Stone", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Verus Hilla", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Verus Hilla", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Arcane Umbra Weapon Box", "is_guaranteed": false},
+        {"item": "Arcane Umbra Armor Box", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Sparkling Blue Star Potion", "is_guaranteed": false},
+        {"item": "Sparkling Red Star Potion", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Seren", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Mitras Hat", "is_guaranteed": false},
+        {"item": "Mitras Gloves", "is_guaranteed": false},
+        {"item": "Mitras Shoes", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Seren", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Mitras Hat", "is_guaranteed": false},
+        {"item": "Mitras Gloves", "is_guaranteed": false},
+        {"item": "Mitras Shoes", "is_guaranteed": false},
+        {"item": "Mitras Cape", "is_guaranteed": false},
+        {"item": "Mitras Overall", "is_guaranteed": false},
+        {"item": "Genesis Weapon Box", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Seren", "difficulty": "Extreme"},
+      "drops": [
+        {"item": "Genesis Badge", "is_guaranteed": false},
+        {"item": "Genesis Weapon Box", "is_guaranteed": false},
+        {"item": "Mitras Hat", "is_guaranteed": false},
+        {"item": "Mitras Gloves", "is_guaranteed": false},
+        {"item": "Mitras Shoes", "is_guaranteed": false},
+        {"item": "Mitras Cape", "is_guaranteed": false},
+        {"item": "Mitras Overall", "is_guaranteed": false},
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Kalos", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Primal Essence", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Kalos", "difficulty": "Chaos"},
+      "drops": [
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false},
+        {"item": "Primal Essence", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Kaling", "difficulty": "Normal"},
+      "drops": [
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    },
+    {
+      "boss": {"name": "Kaling", "difficulty": "Hard"},
+      "drops": [
+        {"item": "Sealed Stone of Chaos", "is_guaranteed": false}
+      ]
+    }
+  ]
+}

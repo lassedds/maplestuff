@@ -1,0 +1,310 @@
+{
+  "items": [
+    {
+      "name": "Sealed Stone of Chaos",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "epic"
+    },
+    {
+      "name": "Intense Power Crystal",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "rare"
+    },
+    {
+      "name": "Black Heart",
+      "category": "equipment",
+      "subcategory": "heart",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Condensed Power Crystal",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "rare"
+    },
+    {
+      "name": "Crusader Coins",
+      "category": "currency",
+      "subcategory": null,
+      "rarity": "common"
+    },
+    {
+      "name": "Absolab Weapon Box",
+      "category": "equipment",
+      "subcategory": "weapon",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Absolab Armor Box",
+      "category": "equipment",
+      "subcategory": "armor",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Absolab Shoulder",
+      "category": "equipment",
+      "subcategory": "shoulder",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Umbra Weapon Box",
+      "category": "equipment",
+      "subcategory": "weapon",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Umbra Armor Box",
+      "category": "equipment",
+      "subcategory": "armor",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Umbra Hat",
+      "category": "equipment",
+      "subcategory": "hat",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Umbra Overall",
+      "category": "equipment",
+      "subcategory": "overall",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Umbra Shoes",
+      "category": "equipment",
+      "subcategory": "shoes",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Umbra Gloves",
+      "category": "equipment",
+      "subcategory": "gloves",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Umbra Cape",
+      "category": "equipment",
+      "subcategory": "cape",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Umbra Shoulder",
+      "category": "equipment",
+      "subcategory": "shoulder",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Genesis Weapon Box",
+      "category": "equipment",
+      "subcategory": "weapon",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Genesis Badge",
+      "category": "equipment",
+      "subcategory": "badge",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Mitras Hat",
+      "category": "equipment",
+      "subcategory": "hat",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Mitras Gloves",
+      "category": "equipment",
+      "subcategory": "gloves",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Mitras Shoes",
+      "category": "equipment",
+      "subcategory": "shoes",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Mitras Cape",
+      "category": "equipment",
+      "subcategory": "cape",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Mitras Overall",
+      "category": "equipment",
+      "subcategory": "overall",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Diffusion Line Energy (Core)",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Twilight Mark",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Endless Terror",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Stigma Spirit Stone",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Sparkling Blue Star Potion",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Sparkling Red Star Potion",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Faint Stigma Spirit Stone",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "epic"
+    },
+    {
+      "name": "Primal Essence",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Power Elixir",
+      "category": "consumable",
+      "subcategory": "potion",
+      "rarity": "common"
+    },
+    {
+      "name": "Suspicious Cube",
+      "category": "scroll",
+      "subcategory": "cube",
+      "rarity": "rare"
+    },
+    {
+      "name": "Occult Cube",
+      "category": "scroll",
+      "subcategory": "cube",
+      "rarity": "epic"
+    },
+    {
+      "name": "Master Craftsman's Cube",
+      "category": "scroll",
+      "subcategory": "cube",
+      "rarity": "epic"
+    },
+    {
+      "name": "Meister's Cube",
+      "category": "scroll",
+      "subcategory": "cube",
+      "rarity": "unique"
+    },
+    {
+      "name": "Craftsman's Cube",
+      "category": "scroll",
+      "subcategory": "cube",
+      "rarity": "rare"
+    },
+    {
+      "name": "Premium Water of Life",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "epic"
+    },
+    {
+      "name": "Dominator Pendant",
+      "category": "equipment",
+      "subcategory": "pendant",
+      "rarity": "unique"
+    },
+    {
+      "name": "Enraged Zakum Helmet",
+      "category": "equipment",
+      "subcategory": "hat",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Royal Black Metal Shoulder",
+      "category": "equipment",
+      "subcategory": "shoulder",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Chaos Horntail Necklace",
+      "category": "equipment",
+      "subcategory": "pendant",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Reinforced Gollux Earrings",
+      "category": "equipment",
+      "subcategory": "earring",
+      "rarity": "unique"
+    },
+    {
+      "name": "Superior Gollux Earrings",
+      "category": "equipment",
+      "subcategory": "earring",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Reinforced Gollux Ring",
+      "category": "equipment",
+      "subcategory": "ring",
+      "rarity": "unique"
+    },
+    {
+      "name": "Superior Gollux Ring",
+      "category": "equipment",
+      "subcategory": "ring",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Reinforced Gollux Pendant",
+      "category": "equipment",
+      "subcategory": "pendant",
+      "rarity": "unique"
+    },
+    {
+      "name": "Superior Gollux Pendant",
+      "category": "equipment",
+      "subcategory": "pendant",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Superior Gollux Belt",
+      "category": "equipment",
+      "subcategory": "belt",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Pocket Item Drop",
+      "category": "equipment",
+      "subcategory": "pocket",
+      "rarity": "unique"
+    },
+    {
+      "name": "Pink Bean Mark (Chair)",
+      "category": "chair",
+      "subcategory": null,
+      "rarity": "unique"
+    }
+  ]
+}
