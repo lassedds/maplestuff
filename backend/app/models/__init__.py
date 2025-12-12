@@ -12,10 +12,10 @@ from app.models.boss import Boss
 from app.models.item import Item
 from app.models.boss_drop_table import BossDropTable
 from app.models.boss_run import BossRun, BossRunDrop
+from app.models.drop_rate_stats import DropRateStats
 
 # Import models as they are created:
 # from app.models.task import Task, UserTask, TaskCompletion
-# from app.models.stats import DropRateStats
 
 __all__ = [
     "Base",
@@ -27,4 +27,5 @@ __all__ = [
     "BossDropTable",
     "BossRun",
     "BossRunDrop",
+    "DropRateStats",
 ]

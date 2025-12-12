@@ -41,6 +41,14 @@ from app.schemas.boss_run import (
     get_current_week_start,
     get_week_start_for_date,
 )
+from app.schemas.stats import (
+    DropRateStatsResponse,
+    BossDropRatesResponse,
+    ItemDropRatesResponse,
+    CommunityStatsOverview,
+    LeaderboardEntry,
+    RareDropsLeaderboardResponse,
+)
 
 __all__ = [
     "UserCreate",
@@ -72,4 +80,10 @@ __all__ = [
     "BossRunListResponse",
     "get_current_week_start",
     "get_week_start_for_date",
+    "DropRateStatsResponse",
+    "BossDropRatesResponse",
+    "ItemDropRatesResponse",
+    "CommunityStatsOverview",
+    "LeaderboardEntry",
+    "RareDropsLeaderboardResponse",
 ]
