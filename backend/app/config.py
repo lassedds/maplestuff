@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     # Discord OAuth
     discord_client_id: str = ""
     discord_client_secret: str = ""
-    discord_redirect_uri: str = "http://localhost:3000/api/auth/discord/callback"
+    discord_redirect_uri: str = "http://localhost:8000/api/auth/discord/callback"
 
     # URLs
     frontend_url: str = "http://localhost:3000"
