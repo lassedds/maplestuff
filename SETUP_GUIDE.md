@@ -155,23 +155,46 @@ BACKEND_URL=http://localhost:8000
 
 ---
 
-## Quick Start with Docker
+## Quick Start with Docker (Recommended)
 
-Once all credentials are set, run:
+### One-Command Setup
 
 ```bash
-# Start PostgreSQL and Redis
+# 1. Copy and edit environment file
+cp .env.example .env
+# Edit .env and add your Discord credentials
+
+# 2. Start everything
+docker-compose up
+```
+
+This starts:
+- PostgreSQL on port 5432
+- Redis on port 6379
+- Backend API on http://localhost:8000
+- Frontend on http://localhost:3000
+
+The backend will automatically:
+- Run database migrations
+- Seed boss/item data
+- Start the API server
+
+### Manual Setup (Without Docker)
+
+```bash
+# Start PostgreSQL and Redis manually or via Docker
 docker-compose up -d db redis
 
-# Run migrations
+# Backend setup
 cd backend
+pip install -r requirements.txt
 alembic upgrade head
-
-# Start backend
+python -m app.seeds.seed_db
 uvicorn app.main:app --reload
 
-# In another terminal, start frontend
+# Frontend setup (in another terminal)
 cd frontend
+npm install
 npm run dev
 ```
 
