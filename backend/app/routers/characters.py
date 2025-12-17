@@ -15,7 +15,11 @@ from app.schemas import (
     CharacterUpdate,
     CharacterResponse,
     CharacterListResponse,
+    CharacterLookupRequest,
+    CharacterLookupResponse,
 )
+# Temporarily disabled: from app.services.nexon_api import get_nexon_client, NexonAPIError
+import os
 
 router = APIRouter(prefix="/characters", tags=["characters"])
 
@@ -39,20 +43,143 @@ async def list_characters(
     )
 
 
+@router.post("/lookup", response_model=CharacterLookupResponse)
+async def lookup_character(
+    lookup_request: CharacterLookupRequest,
+) -> CharacterLookupResponse:
+    """
+    Look up character data from Nexon Rankings API.
+    
+    Returns character info (level, job, icon) for preview.
+    """
+    from app.services.nexon_rankings_scraper import (
+        get_nexon_rankings_scraper,
+        NexonRankingsScraperError,
+    )
+    import json
+    import os
+    from datetime import datetime
+    
+    # #region agent log
+    log_path = "/app/.cursor/debug.log"
+    try:
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        with open(log_path, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"A","location":"characters.py:lookup_character:scraper_start","message":"Starting Nexon scraper lookup","data":{"character_name":lookup_request.character_name,"world":lookup_request.world},"timestamp":int(datetime.now().timestamp()*1000)})+"\n")
+    except: pass
+    # #endregion
+    
+    scraper = get_nexon_rankings_scraper()
+    
+    # #region agent log
+    try:
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        with open(log_path, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"A","location":"characters.py:lookup_character:scraper_check","message":"Scraper instance check","data":{"has_scraper":scraper is not None},"timestamp":int(datetime.now().timestamp()*1000)})+"\n")
+    except: pass
+    # #endregion
+    
+    if not scraper:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Nexon rankings scraper is not available.",
+        )
+    
+    try:
+        data = await scraper.lookup_character(
+            lookup_request.character_name,
+            lookup_request.world,
+        )
+        
+        # #region agent log
+        try:
+            os.makedirs(os.path.dirname(log_path), exist_ok=True)
+            with open(log_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"A","location":"characters.py:lookup_character:scraper_success","message":"Scraper returned data","data":{"data_keys":list(data.keys()) if data else [],"world":data.get("world") if data else None,"level":data.get("level") if data else None},"timestamp":int(datetime.now().timestamp()*1000)})+"\n")
+        except: pass
+        # #endregion
+        
+        return CharacterLookupResponse(
+            character_name=data.get("character_name", lookup_request.character_name),
+            world=data.get("world") or lookup_request.world,
+            level=data.get("level"),
+            job=data.get("job"),
+            character_image=data.get("character_image"),
+            character_icon_url=data.get("character_icon_url") or data.get("character_image"),
+            nexon_ocid=data.get("nexon_ocid"),
+        )
+    except NexonRankingsScraperError as e:
+        # #region agent log
+        try:
+            os.makedirs(os.path.dirname(log_path), exist_ok=True)
+            with open(log_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"A","location":"characters.py:lookup_character:scraper_error","message":"Scraper error caught","data":{"error":str(e),"error_type":type(e).__name__},"timestamp":int(datetime.now().timestamp()*1000)})+"\n")
+        except: pass
+        # #endregion
+        
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Character not found: {str(e)}",
+        )
+    finally:
+        await scraper.close()
+
+
 @router.post("", response_model=CharacterResponse, status_code=status.HTTP_201_CREATED)
 async def create_character(
     character_in: CharacterCreate,
     db: DBSession,
     current_user: CurrentUser,
+    use_nexon_api: bool = True,
 ) -> CharacterResponse:
-    """Create a new character for the current user."""
+    """
+    Create a new character for the current user.
+    If use_nexon_api is True and only name/world provided, fetches data from Nexon Rankings API.
+    """
+    nexon_ocid = None
+    character_icon_url = None
+    job = character_in.job
+    level = character_in.level
+
+    # Always try to fetch icon URL and other data from Nexon Rankings API if enabled
+    if use_nexon_api:
+        from app.services.nexon_rankings_scraper import (
+            get_nexon_rankings_scraper,
+            NexonRankingsScraperError,
+        )
+        
+        scraper = get_nexon_rankings_scraper()
+        if scraper:
+            try:
+                data = await scraper.lookup_character(
+                    character_in.character_name,
+                    character_in.world,
+                )
+                # Always fetch icon URL if available
+                fetched_icon_url = data.get("character_icon_url") or data.get("character_image")
+                if fetched_icon_url:
+                    character_icon_url = fetched_icon_url
+                # Only update job/level if not already provided
+                if not job:
+                    job = data.get("job")
+                if not level:
+                    level = data.get("level")
+                nexon_ocid = data.get("nexon_ocid")
+            except NexonRankingsScraperError:
+                # If API fails, continue with manual entry
+                pass
+            finally:
+                await scraper.close()
+
     character = Character(
         user_id=current_user.id,
         character_name=character_in.character_name,
         world=character_in.world,
-        job=character_in.job,
-        level=character_in.level,
+        job=job,
+        level=level,
         is_main=character_in.is_main,
+        nexon_ocid=nexon_ocid,
+        character_icon_url=character_icon_url,
     )
 
     # If this is set as main, unset other mains
@@ -108,6 +235,56 @@ async def update_character(
     await db.refresh(character)
 
     return CharacterResponse.model_validate(character)
+
+
+@router.post("/{character_id}/refresh", response_model=CharacterResponse)
+async def refresh_character(
+    character_id: UUID,
+    db: DBSession,
+    current_user: CurrentUser,
+) -> CharacterResponse:
+    """
+    Refresh character data from Nexon Rankings API.
+    Updates level, job, and icon.
+    """
+    character = await _get_user_character(db, current_user.id, character_id)
+
+    from app.services.nexon_rankings_scraper import (
+        get_nexon_rankings_scraper,
+        NexonRankingsScraperError,
+    )
+    
+    scraper = get_nexon_rankings_scraper()
+    if not scraper:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Nexon rankings scraper is not available.",
+        )
+
+    try:
+        # Get updated character data
+        data = await scraper.lookup_character(
+            character.character_name,
+            character.world,
+        )
+
+        # Update character fields
+        character.job = data.get("job") or character.job
+        character.level = data.get("level") or character.level
+        character.character_icon_url = data.get("character_icon_url") or data.get("character_image") or character.character_icon_url
+        character.nexon_ocid = data.get("nexon_ocid") or character.nexon_ocid
+
+        await db.commit()
+        await db.refresh(character)
+
+        return CharacterResponse.model_validate(character)
+    except NexonRankingsScraperError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Failed to refresh character: {e}",
+        )
+    finally:
+        await scraper.close()
 
 
 @router.delete("/{character_id}", status_code=status.HTTP_204_NO_CONTENT)

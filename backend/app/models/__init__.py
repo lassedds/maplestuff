@@ -14,6 +14,8 @@ from app.models.boss_drop_table import BossDropTable
 from app.models.boss_run import BossRun, BossRunDrop
 from app.models.drop_rate_stats import DropRateStats
 from app.models.task import Task, UserTask, TaskCompletion
+from app.models.xp_entry import XPEntry
+from app.models.character_xp_snapshot import CharacterXPSnapshot
 
 __all__ = [
     "Base",
@@ -29,4 +31,6 @@ __all__ = [
     "Task",
     "UserTask",
     "TaskCompletion",
+    "XPEntry",
+    "CharacterXPSnapshot",
 ]

@@ -34,6 +34,13 @@ class Settings(BaseSettings):
     frontend_url: str = "http://localhost:3000"
     backend_url: str = "http://localhost:8000"
 
+    # Nexon Open API (optional - for character data fetching, KMS only)
+    nexon_api_key: str = ""
+    nexon_api_base_url: str = "https://open.api.nexon.com"
+    
+    # MapleStory Network API (optional - for GMS character data fetching)
+    maplestory_network_token: str = ""
+
     @property
     def cors_origins(self) -> list[str]:
         """Allowed CORS origins."""

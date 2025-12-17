@@ -35,8 +35,29 @@ class CharacterResponse(CharacterBase):
 
     id: UUID
     user_id: UUID
+    nexon_ocid: str | None = None
+    character_icon_url: str | None = None
     created_at: datetime
     updated_at: datetime
+
+
+class CharacterLookupRequest(BaseModel):
+    """Request schema for looking up character data from Nexon API."""
+    character_name: str = Field(..., min_length=1, max_length=255)
+    world: str = Field(..., min_length=1, max_length=100)
+
+
+class CharacterLookupResponse(BaseModel):
+    """Response schema for character lookup (before creating).
+    Matches the Nexon Rankings API response format.
+    """
+    character_name: str
+    world: str  # Mapped from worldID
+    level: int | None = None
+    job: str | None = None  # From jobName
+    character_image: str | None = None  # From characterImgURL
+    character_icon_url: str | None = None  # From characterImgURL
+    nexon_ocid: str | None = None  # From characterID (if not 0)
 
 
 class CharacterListResponse(BaseModel):

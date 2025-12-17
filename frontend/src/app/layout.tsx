@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'MapleHub OSS',
-  description: 'Open-source MapleStory companion with boss tracking and community drop statistics',
+  title: 'MapleStory Tracker',
+  description: 'MapleStory companion with boss tracking and drop diary',
 };
 
 export default function RootLayout({

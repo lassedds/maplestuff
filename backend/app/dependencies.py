@@ -69,13 +69,14 @@ async def get_current_user(
     Raises 401 if not authenticated.
 
     Falls back to mock user in debug mode when Redis is unavailable.
+about:blank#blocked    TEMPORARY: Always uses mock user when DEBUG=true (no login required).
     """
     # Try to get user from session
     user = await get_current_user_optional(request, db)
     if user:
         return user
 
-    # In debug mode, fall back to mock user for easier development
+    # TEMPORARY: In debug mode, always use mock user (no login required)
     if settings.debug:
         return await _get_or_create_mock_user(db)
 

@@ -17,13 +17,21 @@ from app.config import settings
 from app.database import Base
 
 # Import all models so Alembic can detect them for autogenerate
-from app.models import User, Character, UserSettings, Boss, Item, BossDropTable  # noqa: F401
+from app.models import User, Character, UserSettings, Boss, Item, BossDropTable, XPEntry  # noqa: F401
 
 # Alembic Config object
 config = context.config
 
-# Set the database URL from our app settings
-config.set_main_option("sqlalchemy.url", settings.database_url)
+# Convert postgresql:// to postgresql+asyncpg:// for async driver
+def get_async_database_url(url: str) -> str:
+    """Convert sync database URL to async."""
+    if url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    return url
+
+# Set the database URL from our app settings (convert to async)
+async_url = get_async_database_url(settings.database_url)
+config.set_main_option("sqlalchemy.url", async_url)
 
 # Interpret the config file for Python logging
 if config.config_file_name is not None:

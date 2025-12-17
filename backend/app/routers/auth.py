@@ -173,8 +173,12 @@ async def logout(request: Request, response: Response):
 
 
 @router.get("/me", response_model=UserResponse)
-async def get_current_user_info(current_user: CurrentUser):
+async def get_current_user_info(
+    current_user: CurrentUser,
+    db: DBSession,
+):
     """
     Get current authenticated user info.
+    TEMPORARY: Returns mock user when DEBUG=true (no login required).
     """
     return UserResponse.model_validate(current_user)

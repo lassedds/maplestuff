@@ -8,6 +8,7 @@ Open-source MapleStory companion app with boss tracking, drop diary, daily/weekl
 - **Drop Diary** - Log your drops and contribute to community statistics
 - **Character Management** - Manage multiple characters across different worlds
 - **Community Statistics** - View aggregated drop rates from all users
+- **XP Tracker** - Track daily XP gains with automatic calculations and 7-day averages
 
 ## Tech Stack
 
@@ -19,9 +20,25 @@ Open-source MapleStory companion app with boss tracking, drop diary, daily/weekl
 
 ## Quick Start
 
+### Option 1: Docker (Recommended - Easiest)
+
+```bash
+# Make sure XP table exists at ./Xp/XP_Table.csv
+docker-compose up --build
+```
+
+Access the app at:
+- Frontend: http://localhost:3000
+- XP Tracker: http://localhost:3000/xp-tracker
+- API Docs: http://localhost:8000/docs
+
+See [DOCKER_SETUP.md](./DOCKER_SETUP.md) for details.
+
+### Option 2: Local Development
+
 ### Prerequisites
 
-- Docker and Docker Compose
+- Docker and Docker Compose (for database/redis)
 - Node.js 18+ and npm
 - Python 3.11+
 - Discord OAuth application (see [SETUP_GUIDE.md](./SETUP_GUIDE.md))

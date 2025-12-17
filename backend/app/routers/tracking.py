@@ -3,7 +3,7 @@ Boss tracking API endpoints for GMSTracker.
 Authenticated endpoints for logging and viewing boss clears.
 """
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, date
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Query, status
@@ -301,6 +301,81 @@ async def get_boss_run(
     )
 
 
+@router.put("/runs/{run_id}", response_model=BossRunWithDetailsResponse)
+async def update_boss_run(
+    run_id: UUID,
+    run_data: BossRunUpdate,
+    db: DBSession,
+    current_user: CurrentUser,
+) -> BossRunWithDetailsResponse:
+    """Update a boss run."""
+    result = await db.execute(
+        select(BossRun)
+        .where(BossRun.id == run_id)
+        .options(selectinload(BossRun.character))
+    )
+    run = result.scalar_one_or_none()
+
+    if not run:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Boss run not found",
+        )
+
+    if run.character.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Boss run does not belong to you",
+        )
+
+    # Update fields
+    if run_data.party_size is not None:
+        run.party_size = run_data.party_size
+    if run_data.notes is not None:
+        run.notes = run_data.notes
+    if run_data.is_clear is not None:
+        run.is_clear = run_data.is_clear
+
+    await db.commit()
+    await db.refresh(run)
+
+    # Load relationships
+    result = await db.execute(
+        select(BossRun)
+        .where(BossRun.id == run_id)
+        .options(
+            selectinload(BossRun.character),
+            selectinload(BossRun.boss),
+            selectinload(BossRun.drops).selectinload(BossRunDrop.item),
+        )
+    )
+    run = result.scalar_one()
+
+    return BossRunWithDetailsResponse(
+        id=run.id,
+        character_id=run.character_id,
+        boss_id=run.boss_id,
+        cleared_at=run.cleared_at,
+        week_start=run.week_start,
+        party_size=run.party_size,
+        notes=run.notes,
+        is_clear=run.is_clear,
+        created_at=run.created_at,
+        character_name=run.character.character_name,
+        boss_name=run.boss.name,
+        boss_difficulty=run.boss.difficulty,
+        drops=[
+            BossRunDropResponse(
+                id=drop.id,
+                item_id=drop.item_id,
+                item_name=drop.item.name if drop.item else None,
+                quantity=drop.quantity,
+            )
+            for drop in run.drops
+        ],
+    )
+
+
 @router.delete("/runs/{run_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_boss_run(
     run_id: UUID,
@@ -389,13 +464,20 @@ async def get_weekly_progress(
     db: DBSession,
     current_user: CurrentUser,
     character_id: UUID | None = Query(None, description="Filter by character"),
+    reset_type: str = Query("weekly", description="Filter by reset type (weekly, daily)"),
 ) -> WeeklySummaryResponse:
     """
-    Get weekly boss progress for the current user.
+    Get boss progress for the current user.
     Shows which bosses have been cleared and total meso earned.
+    Supports both weekly and daily reset types.
     """
-    week_start = get_current_week_start()
-    week_end = week_start + timedelta(days=6)
+    if reset_type == "daily":
+        # For daily bosses, use today's date
+        week_start = date.today()
+        week_end = date.today()
+    else:
+        week_start = get_current_week_start()
+        week_end = week_start + timedelta(days=6)
 
     # Get user's characters
     char_query = select(Character).where(Character.user_id == current_user.id)
@@ -415,24 +497,40 @@ async def get_weekly_progress(
             progress=[],
         )
 
-    # Get all weekly bosses
+    # Get bosses by reset type
     boss_result = await db.execute(
         select(Boss)
-        .where(Boss.reset_type == "weekly", Boss.is_active == True)
+        .where(Boss.reset_type == reset_type, Boss.is_active == True)
         .order_by(Boss.sort_order, Boss.name)
     )
     bosses = boss_result.scalars().all()
 
-    # Get clears for this week
-    clears_result = await db.execute(
-        select(BossRun)
-        .where(
-            BossRun.character_id.in_(characters.keys()),
-            BossRun.week_start == week_start,
-            BossRun.is_clear == True,
+    # Get clears for this period
+    if reset_type == "daily":
+        # For daily bosses, check clears from today
+        today_start = datetime.combine(week_start, datetime.min.time()).replace(tzinfo=timezone.utc)
+        today_end = datetime.combine(week_start, datetime.max.time()).replace(tzinfo=timezone.utc)
+        clears_result = await db.execute(
+            select(BossRun)
+            .where(
+                BossRun.character_id.in_(characters.keys()),
+                BossRun.cleared_at >= today_start,
+                BossRun.cleared_at <= today_end,
+                BossRun.is_clear == True,
+            )
+            .options(selectinload(BossRun.character))
         )
-        .options(selectinload(BossRun.character))
-    )
+    else:
+        # For weekly bosses, use week_start
+        clears_result = await db.execute(
+            select(BossRun)
+            .where(
+                BossRun.character_id.in_(characters.keys()),
+                BossRun.week_start == week_start,
+                BossRun.is_clear == True,
+            )
+            .options(selectinload(BossRun.character))
+        )
     clears = {(c.boss_id, c.character_id): c for c in clears_result.scalars().all()}
 
     # Build progress list

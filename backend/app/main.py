@@ -9,7 +9,19 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import auth_router, bosses_router, characters_router, items_router, tracking_router, stats_router, tasks_router
+from app.routers import (
+    auth_router,
+    bosses_router,
+    characters_router,
+    items_router,
+    tracking_router,
+    stats_router,
+    tasks_router,
+    maplestory_router,
+    diary_router,
+    xp_router,
+)
+from app.routers.character_xp import router as character_xp_router
 from app.redis import init_redis, close_redis, redis_client
 
 
@@ -54,6 +66,10 @@ app.include_router(items_router, prefix="/api")
 app.include_router(tracking_router, prefix="/api")
 app.include_router(stats_router, prefix="/api")
 app.include_router(tasks_router, prefix="/api")
+app.include_router(maplestory_router, prefix="/api")
+app.include_router(diary_router, prefix="/api")
+app.include_router(xp_router)
+app.include_router(character_xp_router)
 
 
 @app.get("/health")

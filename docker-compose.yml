@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15
@@ -26,6 +24,43 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://maplehub:devpassword@db:5432/maplehub
+      REDIS_URL: redis://redis:6379
+      DEBUG: "true"
+      SECRET_KEY: dev-secret-key-change-in-production-min-32-chars
+      FRONTEND_URL: http://localhost:3000
+      BACKEND_URL: http://localhost:8000
+      NEXON_API_KEY: test_72aaffe495a8ac33ea405dea6764715e45ed82258616c32f51d215e7efe9c5a0efe8d04e6d233bd35cf2fabdeb93fb0d
+      MAPLESTORY_NETWORK_TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NTQ2NDAwMi0xODhlLTQxZjItYjIxMy00YzRhNTM1ODRjNTAiLCJqdGkiOiJmZDg2ZmY0ODEwZTMxYWU2ODg4MmQ2MjVkZmIxODg4ZGM4OGVmMjM4OTMwNWJlN2I5OWRjNjE1ZTExYjgwZWE0MjQ0NTlmNzFkOWM3MGIyYSIsImlhdCI6MTc2NTU5MTgyMS4yMzc4ODEsIm5iZiI6MTc2NTU5MTgyMS4yMzc4ODMsImV4cCI6MTg2MDI4NjIyMS4xNTI2MzcsInN1YiI6IjkzOTAiLCJzY29wZXMiOlsicHJvZmlsZTpyZWFkIiwicHJvZmlsZTp3cml0ZSIsImZyaWVuZHM6cmVhZCIsImZyaWVuZHM6d3JpdGUiLCJwcm9maWxlczpyZWFkIiwiY2hhcmFjdGVyczpyZWFkIiwiY2hhcmFjdGVyczp3cml0ZSIsImdhbWVEYXRhOnJlYWQiXX0.MnN0hcLWs5qbN0xVw_BiWkuG6_CIhPtVRB5St8JlK7W7OVXg_nrveVygo2gb4V5kXkifvmvtOa0CiSXO-EJAUiaBrq2TBTNANL64oqlciKKxPSPgsVcoTL0EACQfEYZX0QK9yiGbBppZQ9xQNHrqow3ZWi809eRRhyfR18zk_DNAYSkhdRgc256i-M2WVOxDndUpzMB3c3JG4gSmuPlo4mX4-PaFk1mECdVCLSs42tZxPfrw_cuYYxUielDHXH0HLGBoDLrGLH4hpKoFCrMy9KvzBrMAj5n6Pd8XURdygQoP-E9WYtKEBYhP9nqK2nwjVGT_asRvt5OqXqp6AOt54MAZYPamF2RWpqN5KOtYl7ZTTcPIosKdSuQ-KtfEOCT5sUIJfN4JbZgNgdeDL3DB55Aw7is_3IIALTr5mOaG6pFLELzRRq9KLZfsZ0Y6mq11h8FkUyLHLTvDkby5tbRSF5InKCGmV7lpKmRRTC3-6wCqSSfxsedZl67EfOtBmAktrFh0-qhE9sA3n4RfVXNQ_nO71g0QROTLQBENp21zxtdAOMczHZ7ee3gC4YweZQ1D8O_WPONy-usS18IsQXDM1WmHXz_U836M8mURs25DRYOKkV9r2sFggGfV-LRP3gPChxk4wEF1i-BPbFeVBvNAFFVT17kxQ0NTg_Pon7uuvM8.
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - ./Xp:/app/xp_data:ro  # Mount XP table data as read-only
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    command: npm run dev
 
 volumes:
   postgres_data:

@@ -15,6 +15,8 @@ from app.schemas.character import (
     CharacterUpdate,
     CharacterResponse,
     CharacterListResponse,
+    CharacterLookupRequest,
+    CharacterLookupResponse,
 )
 from app.schemas.boss import (
     BossResponse,

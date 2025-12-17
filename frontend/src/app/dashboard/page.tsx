@@ -17,10 +17,13 @@ export default function Dashboard() {
 
   async function loadUser() {
     try {
+      // TEMPORARY: Try to get user, but don't fail if not authenticated
+      // Backend will return mock user when DEBUG=true
       const currentUser = await api.getCurrentUser();
       setUser(currentUser);
     } catch (error) {
-      router.push('/');
+      // If auth fails, still allow access (temporary no-login mode)
+      console.log('Auth not required in debug mode');
     } finally {
       setLoading(false);
     }
@@ -56,15 +59,33 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-bold text-white">MapleHub OSS</h1>
+              <h1 className="text-xl font-bold text-white">MapleStory Tracker</h1>
             </div>
             <div className="flex items-center gap-4">
               <span className="text-gray-300">{user.discord_username}</span>
+              <Link
+                href="/bosses"
+                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Bosses
+              </Link>
               <Link
                 href="/characters"
                 className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
               >
                 Characters
+              </Link>
+              <Link
+                href="/diary"
+                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Diary
+              </Link>
+              <Link
+                href="/xp-tracker"
+                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                XP Tracker
               </Link>
               <button
                 onClick={handleLogout}
@@ -108,12 +129,23 @@ export default function Dashboard() {
 
           <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
             <h3 className="text-lg font-semibold text-white mb-2">Drop Diary</h3>
-            <p className="text-gray-400 text-sm mb-4">View your drop history</p>
+            <p className="text-gray-400 text-sm mb-4">View your complete drop history with filters and statistics</p>
             <Link
               href="/diary"
               className="text-blue-400 hover:text-blue-300 text-sm font-medium"
             >
               View Diary →
+            </Link>
+          </div>
+
+          <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+            <h3 className="text-lg font-semibold text-white mb-2">XP Tracker</h3>
+            <p className="text-gray-400 text-sm mb-4">Track daily XP gains with automatic calculations</p>
+            <Link
+              href="/xp-tracker"
+              className="text-blue-400 hover:text-blue-300 text-sm font-medium"
+            >
+              View XP Tracker →
             </Link>
           </div>
         </div>

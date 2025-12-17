@@ -34,11 +34,20 @@ class Character(Base, UUIDMixin, TimestampMixin):
     job: Mapped[str | None] = mapped_column(String(100))
     level: Mapped[int | None] = mapped_column(Integer)
     is_main: Mapped[bool] = mapped_column(Boolean, default=False)
+    
+    # Nexon API fields
+    nexon_ocid: Mapped[str | None] = mapped_column(String(255), nullable=True, index=True)
+    character_icon_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     # Relationships
     user: Mapped["User"] = relationship("User", back_populates="characters")
     boss_runs: Mapped[list["BossRun"]] = relationship(
         "BossRun",
+        back_populates="character",
+        cascade="all, delete-orphan",
+    )
+    xp_snapshots: Mapped[list["CharacterXPSnapshot"]] = relationship(
+        "CharacterXPSnapshot",
         back_populates="character",
         cascade="all, delete-orphan",
     )
@@ -50,3 +59,4 @@ class Character(Base, UUIDMixin, TimestampMixin):
 # Import here to avoid circular imports
 from app.models.user import User
 from app.models.boss_run import BossRun
+from app.models.character_xp_snapshot import CharacterXPSnapshot

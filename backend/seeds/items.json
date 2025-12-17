@@ -19,6 +19,54 @@
       "rarity": "legendary"
     },
     {
+      "name": "Source of Suffering",
+      "category": "equipment",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Magic Eyepatch",
+      "category": "equipment",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Berserked",
+      "category": "equipment",
+      "subcategory": "belt",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Dreamy Belt",
+      "category": "equipment",
+      "subcategory": "belt",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Commanding Force Earring",
+      "category": "equipment",
+      "subcategory": "earring",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Mitra's Rage",
+      "category": "equipment",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Cursed Spellbook",
+      "category": "equipment",
+      "subcategory": null,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Grindstone",
+      "category": "material",
+      "subcategory": null,
+      "rarity": "rare"
+    },
+    {
       "name": "Condensed Power Crystal",
       "category": "material",
       "subcategory": null,
@@ -46,6 +94,18 @@
       "name": "Absolab Shoulder",
       "category": "equipment",
       "subcategory": "shoulder",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Armor Box",
+      "category": "equipment",
+      "subcategory": "armor",
+      "rarity": "legendary"
+    },
+    {
+      "name": "Arcane Weapon Box",
+      "category": "equipment",
+      "subcategory": "weapon",
       "rarity": "legendary"
     },
     {
