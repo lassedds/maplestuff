@@ -914,11 +914,8 @@ export default function BossesPage() {
                                 Crystal: {getHeroicCrystalValue(activeBoss).toLocaleString()} • Per member: {perMemberCrystal.toLocaleString()} • Party {partySize}
                               </div>
                               
-                              {/* Party Size */}
-                              <input
-                                type="number"
-                                min="1"
-                                max="6"
+                              {/* Party Size Dropdown */}
+                              <select
                                 value={settings?.party_size || 1}
                                 onChange={(e) => {
                                   e.stopPropagation();
@@ -936,8 +933,14 @@ export default function BossesPage() {
                                 }}
                                 onClick={(e) => e.stopPropagation()}
                                 className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Party"
-                              />
+                              >
+                                <option value={1}>Solo (1)</option>
+                                <option value={2}>Duo (2)</option>
+                                <option value={3}>3 Players</option>
+                                <option value={4}>4 Players</option>
+                                <option value={5}>5 Players</option>
+                                <option value={6}>Full Party (6)</option>
+                              </select>
                             </div>
                           );
                         })}
@@ -985,7 +988,7 @@ export default function BossesPage() {
         <BossSelectionModal
           isOpen={showBossSelectionModal}
           onClose={() => setShowBossSelectionModal(false)}
-          onSave={async (selectedBossIds, characterId, partySize) => {
+          onSave={async (selectedBossIds, characterId, partySizes) => {
             // Replace all bosses for this character (don't stack)
             try {
               // Enforce 14 boss limit
@@ -1001,7 +1004,7 @@ export default function BossesPage() {
                 const newAllSettings = new Map(bossSettings);
                 newAllSettings.delete(characterId);
                 setBossSettings(newAllSettings);
-                
+
                 // Clear from localStorage
                 charSettings.forEach((settings, bossId) => {
                   const storedKey = `boss_${characterId}_${bossId}_${filterResetType}`;
@@ -1009,8 +1012,9 @@ export default function BossesPage() {
                 });
               }
 
-              // Add new selected bosses
+              // Add new selected bosses with per-boss party sizes
               for (const bossId of selectedBossIds) {
+                const partySize = partySizes.get(bossId) || 1;
                 saveBossSettings(characterId, bossId, {
                   boss_id: bossId,
                   character_id: characterId,
@@ -1018,7 +1022,7 @@ export default function BossesPage() {
                   cleared: false,
                 });
               }
-              
+
               await loadData();
             } catch (error: any) {
               alert(error.response?.data?.detail || 'Failed to update bosses');

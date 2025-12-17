@@ -2,11 +2,19 @@
   "bosses": [
     {
       "name": "Zakum",
+      "difficulty": "Easy",
+      "reset_type": "daily",
+      "party_size": 1,
+      "crystal_meso": 1000000,
+      "sort_order": 1
+    },
+    {
+      "name": "Zakum",
       "difficulty": "Normal",
       "reset_type": "daily",
       "party_size": 1,
       "crystal_meso": 3062500,
-      "sort_order": 1
+      "sort_order": 2
     },
     {
       "name": "Zakum",
@@ -14,15 +22,15 @@
       "reset_type": "weekly",
       "party_size": 1,
       "crystal_meso": 81000000,
-      "sort_order": 10
+      "sort_order": 100
     },
     {
       "name": "Magnus",
       "difficulty": "Easy",
       "reset_type": "daily",
       "party_size": 1,
-      "crystal_meso": 3612500,
-      "sort_order": 2
+      "crystal_meso": 3610000,
+      "sort_order": 3
     },
     {
       "name": "Magnus",
@@ -30,7 +38,7 @@
       "reset_type": "weekly",
       "party_size": 1,
       "crystal_meso": 12960000,
-      "sort_order": 11
+      "sort_order": 101
     },
     {
       "name": "Magnus",
@@ -38,7 +46,7 @@
       "reset_type": "weekly",
       "party_size": 1,
       "crystal_meso": 95062500,
-      "sort_order": 30
+      "sort_order": 110
     },
     {
       "name": "Hilla",
@@ -46,7 +54,7 @@
       "reset_type": "daily",
       "party_size": 1,
       "crystal_meso": 4000000,
-      "sort_order": 3
+      "sort_order": 4
     },
     {
       "name": "Hilla",
@@ -54,15 +62,15 @@
       "reset_type": "weekly",
       "party_size": 1,
       "crystal_meso": 56250000,
-      "sort_order": 20
+      "sort_order": 102
     },
     {
       "name": "Pink Bean",
       "difficulty": "Normal",
-      "reset_type": "weekly",
+      "reset_type": "daily",
       "party_size": 1,
       "crystal_meso": 7022500,
-      "sort_order": 12
+      "sort_order": 10
     },
     {
       "name": "Pink Bean",
@@ -70,7 +78,7 @@
       "reset_type": "weekly",
       "party_size": 1,
       "crystal_meso": 64000000,
-      "sort_order": 21
+      "sort_order": 103
     },
     {
       "name": "Cygnus",
@@ -78,7 +86,7 @@
       "reset_type": "weekly",
       "party_size": 1,
       "crystal_meso": 45562500,
-      "sort_order": 13
+      "sort_order": 104
     },
     {
       "name": "Cygnus",
@@ -86,7 +94,7 @@
       "reset_type": "weekly",
       "party_size": 1,
       "crystal_meso": 72250000,
-      "sort_order": 22
+      "sort_order": 105
     },
     {
       "name": "Von Leon",
@@ -94,15 +102,15 @@
       "reset_type": "daily",
       "party_size": 1,
       "crystal_meso": 5290000,
-      "sort_order": 4
+      "sort_order": 5
     },
     {
       "name": "Von Leon",
       "difficulty": "Normal",
       "reset_type": "daily",
       "party_size": 1,
-      "crystal_meso": 6760000,
-      "sort_order": 5
+      "crystal_meso": 7290000,
+      "sort_order": 6
     },
     {
       "name": "Von Leon",
@@ -110,23 +118,23 @@
       "reset_type": "daily",
       "party_size": 1,
       "crystal_meso": 12250000,
-      "sort_order": 6
+      "sort_order": 7
     },
     {
       "name": "Arkarium",
       "difficulty": "Easy",
       "reset_type": "daily",
       "party_size": 1,
-      "crystal_meso": 6250000,
-      "sort_order": 7
+      "crystal_meso": 5760000,
+      "sort_order": 8
     },
     {
       "name": "Arkarium",
       "difficulty": "Normal",
       "reset_type": "daily",
       "party_size": 1,
-      "crystal_meso": 12600000,
-      "sort_order": 8
+      "crystal_meso": 12602500,
+      "sort_order": 9
     },
     {
       "name": "Horntail",
@@ -134,7 +142,7 @@
       "reset_type": "daily",
       "party_size": 1,
       "crystal_meso": 4410000,
-      "sort_order": 9
+      "sort_order": 11
     },
     {
       "name": "Horntail",
@@ -142,31 +150,31 @@
       "reset_type": "daily",
       "party_size": 1,
       "crystal_meso": 5062500,
-      "sort_order": 10
+      "sort_order": 12
     },
     {
       "name": "Horntail",
       "difficulty": "Chaos",
-      "reset_type": "weekly",
+      "reset_type": "daily",
       "party_size": 1,
-      "crystal_meso": 72250000,
-      "sort_order": 23
+      "crystal_meso": 6760000,
+      "sort_order": 13
     },
     {
       "name": "Ranmaru",
       "difficulty": "Normal",
       "reset_type": "daily",
       "party_size": 1,
-      "crystal_meso": 3240000,
-      "sort_order": 11
+      "crystal_meso": 4202500,
+      "sort_order": 14
     },
     {
       "name": "Ranmaru",
       "difficulty": "Hard",
       "reset_type": "daily",
       "party_size": 1,
-      "crystal_meso": 5062500,
-      "sort_order": 12
+      "crystal_meso": 13322500,
+      "sort_order": 15
     },
     {
       "name": "Papulatus",
@@ -174,15 +182,15 @@
       "reset_type": "daily",
       "party_size": 1,
       "crystal_meso": 3422500,
-      "sort_order": 13
+      "sort_order": 16
     },
     {
       "name": "Papulatus",
       "difficulty": "Normal",
       "reset_type": "daily",
       "party_size": 1,
-      "crystal_meso": 14062500,
-      "sort_order": 14
+      "crystal_meso": 13322500,
+      "sort_order": 17
     },
     {
       "name": "Papulatus",
@@ -190,303 +198,384 @@
       "reset_type": "weekly",
       "party_size": 1,
       "crystal_meso": 132250000,
-      "sort_order": 31
+      "sort_order": 111
+    },
+    {
+      "name": "Pierre",
+      "difficulty": "Normal",
+      "reset_type": "daily",
+      "party_size": 1,
+      "crystal_meso": 4840000,
+      "sort_order": 18
+    },
+    {
+      "name": "Pierre",
+      "difficulty": "Chaos",
+      "reset_type": "weekly",
+      "party_size": 1,
+      "crystal_meso": 81000000,
+      "sort_order": 106
+    },
+    {
+      "name": "Von Bon",
+      "difficulty": "Normal",
+      "reset_type": "daily",
+      "party_size": 1,
+      "crystal_meso": 4840000,
+      "sort_order": 19
+    },
+    {
+      "name": "Von Bon",
+      "difficulty": "Chaos",
+      "reset_type": "weekly",
+      "party_size": 1,
+      "crystal_meso": 81000000,
+      "sort_order": 107
+    },
+    {
+      "name": "Crimson Queen",
+      "difficulty": "Normal",
+      "reset_type": "daily",
+      "party_size": 1,
+      "crystal_meso": 4840000,
+      "sort_order": 20
+    },
+    {
+      "name": "Crimson Queen",
+      "difficulty": "Chaos",
+      "reset_type": "weekly",
+      "party_size": 1,
+      "crystal_meso": 81000000,
+      "sort_order": 108
+    },
+    {
+      "name": "Vellum",
+      "difficulty": "Normal",
+      "reset_type": "daily",
+      "party_size": 1,
+      "crystal_meso": 4840000,
+      "sort_order": 21
+    },
+    {
+      "name": "Vellum",
+      "difficulty": "Chaos",
+      "reset_type": "weekly",
+      "party_size": 1,
+      "crystal_meso": 105062500,
+      "sort_order": 109
+    },
+    {
+      "name": "OMNI-CLN",
+      "difficulty": "Normal",
+      "reset_type": "daily",
+      "party_size": 1,
+      "crystal_meso": 6250000,
+      "sort_order": 22
     },
     {
       "name": "Lotus",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 324000000,
-      "sort_order": 40
+      "crystal_meso": 162562500,
+      "sort_order": 200
     },
     {
       "name": "Lotus",
       "difficulty": "Hard",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 696000000,
-      "sort_order": 50
+      "crystal_meso": 444675000,
+      "sort_order": 210
     },
     {
       "name": "Lotus",
       "difficulty": "Extreme",
       "reset_type": "weekly",
-      "party_size": 6,
-      "crystal_meso": 2000000000,
-      "sort_order": 70
+      "party_size": 2,
+      "crystal_meso": 1397500000,
+      "sort_order": 300
     },
     {
       "name": "Damien",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 351562500,
-      "sort_order": 41
+      "crystal_meso": 169000000,
+      "sort_order": 201
     },
     {
       "name": "Damien",
       "difficulty": "Hard",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 722500000,
-      "sort_order": 51
+      "crystal_meso": 421875000,
+      "sort_order": 211
     },
     {
       "name": "Lucid",
       "difficulty": "Easy",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 265625000,
-      "sort_order": 42
+      "crystal_meso": 237009375,
+      "sort_order": 202
     },
     {
       "name": "Lucid",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 400000000,
-      "sort_order": 43
+      "crystal_meso": 253828125,
+      "sort_order": 203
     },
     {
       "name": "Lucid",
       "difficulty": "Hard",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 875000000,
-      "sort_order": 52
+      "crystal_meso": 504000000,
+      "sort_order": 212
     },
     {
       "name": "Will",
       "difficulty": "Easy",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 289000000,
-      "sort_order": 44
+      "crystal_meso": 246744750,
+      "sort_order": 204
     },
     {
       "name": "Will",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 441000000,
-      "sort_order": 45
+      "crystal_meso": 279075000,
+      "sort_order": 205
     },
     {
       "name": "Will",
       "difficulty": "Hard",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 950625000,
-      "sort_order": 53
+      "crystal_meso": 621810000,
+      "sort_order": 213
     },
     {
       "name": "Gloom",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 495625000,
-      "sort_order": 46
+      "crystal_meso": 297675000,
+      "sort_order": 206
     },
     {
       "name": "Gloom",
       "difficulty": "Chaos",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 992250000,
-      "sort_order": 54
+      "crystal_meso": 563945000,
+      "sort_order": 214
     },
     {
       "name": "Darknell",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 552250000,
-      "sort_order": 47
+      "crystal_meso": 316875000,
+      "sort_order": 207
     },
     {
       "name": "Darknell",
       "difficulty": "Hard",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 1102500000,
-      "sort_order": 55
+      "crystal_meso": 667920000,
+      "sort_order": 215
     },
     {
       "name": "Verus Hilla",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 552250000,
-      "sort_order": 48
+      "crystal_meso": 581880000,
+      "sort_order": 208
     },
     {
       "name": "Verus Hilla",
       "difficulty": "Hard",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 1181250000,
-      "sort_order": 56
+      "crystal_meso": 762105000,
+      "sort_order": 216
     },
     {
       "name": "Seren",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 756250000,
-      "sort_order": 57
+      "crystal_meso": 889021875,
+      "sort_order": 217
     },
     {
       "name": "Seren",
       "difficulty": "Hard",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 1260250000,
-      "sort_order": 58
+      "crystal_meso": 1096560000,
+      "sort_order": 218
     },
     {
       "name": "Seren",
       "difficulty": "Extreme",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 2500000000,
-      "sort_order": 71
+      "crystal_meso": 4235000000,
+      "sort_order": 301
     },
     {
       "name": "Kalos",
       "difficulty": "Easy",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 1000000000,
-      "sort_order": 59
+      "crystal_meso": 937500000,
+      "sort_order": 219
     },
     {
       "name": "Kalos",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 1341000000,
-      "sort_order": 60
+      "crystal_meso": 1300000000,
+      "sort_order": 220
     },
     {
       "name": "Kalos",
       "difficulty": "Chaos",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 2000000000,
-      "sort_order": 72
-    },
-    {
-      "name": "Kaling",
-      "difficulty": "Easy",
-      "reset_type": "weekly",
-      "party_size": 6,
-      "crystal_meso": 1125000000,
-      "sort_order": 61
-    },
-    {
-      "name": "Kaling",
-      "difficulty": "Normal",
-      "reset_type": "weekly",
-      "party_size": 6,
-      "crystal_meso": 1422250000,
-      "sort_order": 62
-    },
-    {
-      "name": "Kaling",
-      "difficulty": "Hard",
-      "reset_type": "weekly",
-      "party_size": 6,
-      "crystal_meso": 2500000000,
-      "sort_order": 73
+      "crystal_meso": 2600000000,
+      "sort_order": 302
     },
     {
       "name": "Kalos",
       "difficulty": "Extreme",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 2500000000,
-      "sort_order": 74
+      "crystal_meso": 5200000000,
+      "sort_order": 303
+    },
+    {
+      "name": "Kaling",
+      "difficulty": "Easy",
+      "reset_type": "weekly",
+      "party_size": 6,
+      "crystal_meso": 1031250000,
+      "sort_order": 221
+    },
+    {
+      "name": "Kaling",
+      "difficulty": "Normal",
+      "reset_type": "weekly",
+      "party_size": 6,
+      "crystal_meso": 1506500000,
+      "sort_order": 222
+    },
+    {
+      "name": "Kaling",
+      "difficulty": "Hard",
+      "reset_type": "weekly",
+      "party_size": 6,
+      "crystal_meso": 2990000000,
+      "sort_order": 304
     },
     {
       "name": "Kaling",
       "difficulty": "Extreme",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 3000000000,
-      "sort_order": 75
+      "crystal_meso": 6026000000,
+      "sort_order": 305
     },
     {
       "name": "Akechi Mitsuhide",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 1,
-      "crystal_meso": 85202500,
-      "sort_order": 32
+      "crystal_meso": 144000000,
+      "sort_order": 112
     },
     {
       "name": "Guardian Angel Slime",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 252025000,
-      "sort_order": 33
+      "crystal_meso": 231673500,
+      "sort_order": 113
     },
     {
       "name": "Guardian Angel Slime",
       "difficulty": "Chaos",
       "reset_type": "weekly",
       "party_size": 6,
-      "crystal_meso": 420250000,
-      "sort_order": 49
+      "crystal_meso": 600578125,
+      "sort_order": 209
     },
     {
       "name": "Princess No",
       "difficulty": "Normal",
       "reset_type": "weekly",
       "party_size": 1,
-      "crystal_meso": 100000000,
-      "sort_order": 34
+      "crystal_meso": 81000000,
+      "sort_order": 114
     },
     {
       "name": "Limbo",
       "difficulty": "Normal",
       "reset_type": "weekly",
-      "party_size": 6,
-      "crystal_meso": 1500000000,
-      "sort_order": 74
+      "party_size": 3,
+      "crystal_meso": 2100000000,
+      "sort_order": 306
     },
     {
       "name": "Limbo",
       "difficulty": "Hard",
       "reset_type": "weekly",
-      "party_size": 6,
-      "crystal_meso": 3000000000,
-      "sort_order": 75
+      "party_size": 3,
+      "crystal_meso": 3745000000,
+      "sort_order": 307
     },
     {
       "name": "Baldrix",
       "difficulty": "Normal",
       "reset_type": "weekly",
-      "party_size": 6,
-      "crystal_meso": 2000000000,
-      "sort_order": 76
+      "party_size": 3,
+      "crystal_meso": 2800000000,
+      "sort_order": 308
     },
     {
       "name": "Baldrix",
       "difficulty": "Hard",
       "reset_type": "weekly",
-      "party_size": 6,
-      "crystal_meso": 4000000000,
-      "sort_order": 77
+      "party_size": 3,
+      "crystal_meso": 4200000000,
+      "sort_order": 309
     },
     {
       "name": "Black Mage",
-      "difficulty": null,
+      "difficulty": "Hard",
       "reset_type": "monthly",
       "party_size": 6,
-      "crystal_meso": 5000000000,
-      "sort_order": 78,
+      "crystal_meso": 4500000000,
+      "sort_order": 400,
+      "image_url": "https://ufbyqlficreixurzzgnm.supabase.co/storage/v1/object/public/images/bosses/black-mage.webp"
+    },
+    {
+      "name": "Black Mage",
+      "difficulty": "Extreme",
+      "reset_type": "monthly",
+      "party_size": 6,
+      "crystal_meso": 18000000000,
+      "sort_order": 401,
       "image_url": "https://ufbyqlficreixurzzgnm.supabase.co/storage/v1/object/public/images/bosses/black-mage.webp"
     }
   ]

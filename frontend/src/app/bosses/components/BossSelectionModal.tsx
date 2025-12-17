@@ -94,7 +94,7 @@ interface BossPreset {
 interface BossSelectionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (selectedBossIds: number[], characterId: string, partySize: number) => void;
+  onSave: (selectedBossIds: number[], characterId: string, partySizes: Map<number, number>) => void;
   bosses: Boss[];
   characters: Character[];
   resetType: string;
@@ -114,7 +114,8 @@ export default function BossSelectionModal({
 }: BossSelectionModalProps) {
   const [selectedBossIds, setSelectedBossIds] = useState<Set<number>>(new Set());
   const [selectedCharacter, setSelectedCharacter] = useState<string>('');
-  const [partySize, setPartySize] = useState<number>(1);
+  const [defaultPartySize, setDefaultPartySize] = useState<number>(1);
+  const [bossPartySizes, setBossPartySizes] = useState<Map<number, number>>(new Map()); // boss_id -> party_size
   const [presets, setPresets] = useState<BossPreset[]>([]);
   const [presetName, setPresetName] = useState<string>('');
   const [showPresetSave, setShowPresetSave] = useState(false);
@@ -173,6 +174,7 @@ export default function BossSelectionModal({
       setSelectedBossIds(new Set());
       setSelectedBossDifficulties(new Map());
       setClearedBosses(new Set());
+      setBossPartySizes(new Map());
     }
   }, [isOpen, characters.length, defaultCharacterId, resetType, trackedBosses]);
 
@@ -288,6 +290,16 @@ export default function BossSelectionModal({
     setClearedBosses(newCleared);
   }
 
+  function getBossPartySize(bossId: number): number {
+    return bossPartySizes.get(bossId) || defaultPartySize;
+  }
+
+  function setBossPartySize(bossId: number, size: number) {
+    const newMap = new Map(bossPartySizes);
+    newMap.set(bossId, size);
+    setBossPartySizes(newMap);
+  }
+
   function handleSave() {
     if (selectedBossIds.size === 0) {
       alert('Please select at least one boss');
@@ -301,10 +313,16 @@ export default function BossSelectionModal({
       alert('Please select a character');
       return;
     }
-    onSave(Array.from(selectedBossIds), selectedCharacter, partySize);
+    // Build party sizes map with defaults for any bosses not explicitly set
+    const finalPartySizes = new Map<number, number>();
+    selectedBossIds.forEach(bossId => {
+      finalPartySizes.set(bossId, getBossPartySize(bossId));
+    });
+    onSave(Array.from(selectedBossIds), selectedCharacter, finalPartySizes);
     setSelectedBossIds(new Set());
     setClearedBosses(new Set());
     setSelectedBossDifficulties(new Map());
+    setBossPartySizes(new Map());
     onClose();
   }
 
@@ -364,15 +382,19 @@ export default function BossSelectionModal({
               ))}
             </select>
 
-            <input
-              type="number"
-              min="1"
-              max="6"
-              value={partySize}
-              onChange={(e) => setPartySize(parseInt(e.target.value) || 1)}
-              className="w-20 bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Party"
-            />
+            <select
+              value={defaultPartySize}
+              onChange={(e) => setDefaultPartySize(parseInt(e.target.value) || 1)}
+              className="bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              title="Default party size for new bosses"
+            >
+              <option value={1}>Default: Solo (1)</option>
+              <option value={2}>Default: Duo (2)</option>
+              <option value={3}>Default: 3 Players</option>
+              <option value={4}>Default: 4 Players</option>
+              <option value={5}>Default: 5 Players</option>
+              <option value={6}>Default: Full Party (6)</option>
+            </select>
           </div>
 
           {presets.length > 0 && (
@@ -497,8 +519,8 @@ export default function BossSelectionModal({
                     {/* Boss Name */}
                     <h3 className="text-white font-semibold text-sm mb-2 text-center">{bossName}</h3>
 
-                    {/* Difficulty Dropdown */}
-                    {isSelected && (
+                    {/* Difficulty & Party Size Dropdowns */}
+                    {isSelected && selectedBossId && (
                       <div className="space-y-2" onClick={(e) => e.stopPropagation()}>
                         <select
                           value={selectedDifficulty}
@@ -510,6 +532,20 @@ export default function BossSelectionModal({
                               {boss.difficulty || 'Normal'}
                             </option>
                           ))}
+                        </select>
+
+                        {/* Party Size Dropdown */}
+                        <select
+                          value={getBossPartySize(selectedBossId)}
+                          onChange={(e) => setBossPartySize(selectedBossId, parseInt(e.target.value) || 1)}
+                          className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value={1}>Solo (1)</option>
+                          <option value={2}>Duo (2)</option>
+                          <option value={3}>3 Players</option>
+                          <option value={4}>4 Players</option>
+                          <option value={5}>5 Players</option>
+                          <option value={6}>Full Party (6)</option>
                         </select>
 
                         {/* Cleared Toggle */}
