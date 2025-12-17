@@ -34,6 +34,7 @@ class Character(Base, UUIDMixin, TimestampMixin):
     job: Mapped[str | None] = mapped_column(String(100))
     level: Mapped[int | None] = mapped_column(Integer)
     is_main: Mapped[bool] = mapped_column(Boolean, default=False)
+    sort_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     
     # Nexon API fields
     nexon_ocid: Mapped[str | None] = mapped_column(String(255), nullable=True, index=True)

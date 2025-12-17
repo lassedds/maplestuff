@@ -17,6 +17,7 @@ from app.schemas import (
     CharacterListResponse,
     CharacterLookupRequest,
     CharacterLookupResponse,
+    CharacterReorderRequest,
 )
 # Temporarily disabled: from app.services.nexon_api import get_nexon_client, NexonAPIError
 import os
@@ -33,7 +34,11 @@ async def list_characters(
     result = await db.execute(
         select(Character)
         .where(Character.user_id == current_user.id)
-        .order_by(Character.is_main.desc(), Character.character_name)
+        .order_by(
+            Character.is_main.desc(),  # Keep mains at the top
+            Character.sort_order,
+            Character.character_name,
+        )
     )
     characters = result.scalars().all()
 
@@ -171,6 +176,12 @@ async def create_character(
             finally:
                 await scraper.close()
 
+    # Place new characters at the end of the user's list by default
+    max_order_result = await db.execute(
+        select(func.coalesce(func.max(Character.sort_order), -1)).where(Character.user_id == current_user.id)
+    )
+    next_sort_order = (max_order_result.scalar() or -1) + 1
+
     character = Character(
         user_id=current_user.id,
         character_name=character_in.character_name,
@@ -180,6 +191,7 @@ async def create_character(
         is_main=character_in.is_main,
         nexon_ocid=nexon_ocid,
         character_icon_url=character_icon_url,
+        sort_order=next_sort_order,
     )
 
     # If this is set as main, unset other mains
@@ -285,6 +297,56 @@ async def refresh_character(
         )
     finally:
         await scraper.close()
+
+
+@router.post("/reorder", status_code=status.HTTP_204_NO_CONTENT)
+async def reorder_characters(
+    reorder_request: CharacterReorderRequest,
+    db: DBSession,
+    current_user: CurrentUser,
+) -> None:
+    """
+    Update the display order for the current user's characters.
+    Accepts an ordered list of character IDs. Missing IDs are appended in their current order.
+    """
+    requested_ids = reorder_request.character_ids
+
+    # Fetch all character IDs for the current user
+    result = await db.execute(
+        select(Character.id, Character.sort_order)
+        .where(Character.user_id == current_user.id)
+        .order_by(Character.sort_order, Character.created_at)
+    )
+    user_characters = result.all()
+    user_ids = [row[0] for row in user_characters]
+
+    # Ensure the user is not trying to reorder characters they don't own
+    unknown_ids = set(requested_ids) - set(user_ids)
+    if unknown_ids:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Invalid character IDs in reorder request",
+        )
+
+    # Build the final order: requested IDs first, then any missing in their prior order
+    remaining_ids = [cid for cid in user_ids if cid not in requested_ids]
+    final_ids = [*requested_ids, *remaining_ids]
+
+    # Load characters into a map for quick updates
+    result = await db.execute(
+        select(Character).where(
+            Character.user_id == current_user.id,
+            Character.id.in_(final_ids),
+        )
+    )
+    char_map = {c.id: c for c in result.scalars()}
+
+    for idx, cid in enumerate(final_ids):
+        character = char_map.get(cid)
+        if character:
+            character.sort_order = idx
+
+    await db.commit()
 
 
 @router.delete("/{character_id}", status_code=status.HTTP_204_NO_CONTENT)

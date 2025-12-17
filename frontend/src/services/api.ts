@@ -82,6 +82,10 @@ class ApiClient {
     await this.client.delete(`/api/characters/${id}`);
   }
 
+  async reorderCharacters(order: string[]): Promise<void> {
+    await this.client.post('/api/characters/reorder', { character_ids: order });
+  }
+
   async lookupCharacter(name: string, world: string): Promise<CharacterLookupResponse> {
     console.log('📡 API: lookupCharacter called', { name, world });
     try {

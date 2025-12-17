@@ -30,17 +30,36 @@ export default function DiaryPage() {
   const [items, setItems] = useState<Item[]>([]);
   const [addDropLoading, setAddDropLoading] = useState(false);
   const [addDropError, setAddDropError] = useState<string | null>(null);
+  const userTimeZone =
+    typeof Intl !== 'undefined'
+      ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/Berlin'
+      : 'Europe/Berlin';
+
+  const getLocalDateInput = () =>
+    new Intl.DateTimeFormat('en-CA', {
+      timeZone: userTimeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(new Date());
+
+  const toLocalISODateTime = (dateInput: string) => {
+    // Interpret the provided date in the user's timezone at midnight, then convert to ISO
+    const localDate = new Date(`${dateInput}T00:00:00`);
+    const offsetMs = localDate.getTimezoneOffset() * 60000;
+    return new Date(localDate.getTime() - offsetMs).toISOString();
+  };
+
   const [dropForm, setDropForm] = useState({
     character_id: '',
     item_id: '',
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalDateInput(),
   });
 
-  const CET_TZ = 'Europe/Berlin';
   const formatDate = (iso?: string | null) => {
     if (!iso) return 'Unknown';
     return new Intl.DateTimeFormat('en-CA', {
-      timeZone: CET_TZ,
+      timeZone: userTimeZone,
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -49,7 +68,7 @@ export default function DiaryPage() {
   const formatDateTime = (iso?: string | null) => {
     if (!iso) return 'Unknown';
     return new Intl.DateTimeFormat('en-GB', {
-      timeZone: CET_TZ,
+      timeZone: userTimeZone,
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -216,7 +235,7 @@ export default function DiaryPage() {
         {
           boss_id: bossId,
           character_id: dropForm.character_id,
-          cleared_at: dropForm.date,
+          cleared_at: toLocalISODateTime(dropForm.date),
         },
         itemId,
         1
@@ -247,7 +266,7 @@ export default function DiaryPage() {
         {
           boss_id: bossId,
           character_id: dropForm.character_id,
-          cleared_at: dropForm.date,
+          cleared_at: toLocalISODateTime(dropForm.date),
         },
         item.id,
         1

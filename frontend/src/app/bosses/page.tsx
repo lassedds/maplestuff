@@ -22,6 +22,7 @@ const BOSS_ICON_OVERRIDES: Record<string, string> = {
   'chosen seren': 'chosen-seren',
   kalos: 'kalos-the-guardian',
 };
+// Crystal values in the backend are stored at the Heroic (Reboot) rate already
 
 // Helper function to normalize boss name for file lookup
 function normalizeBossName(name: string): string {
@@ -102,7 +103,7 @@ function BossImageDisplay({ boss, bossName }: { boss: Boss; bossName: string }) 
 
   if (imageError) {
     return (
-      <div className="relative mb-3 bg-gray-900 rounded flex items-center justify-center" style={{ minHeight: '128px' }}>
+      <div className="relative mb-2 bg-gray-900 rounded flex items-center justify-center" style={{ minHeight: '112px' }}>
         <div className="text-gray-500 text-xs text-center p-4">
           <div className="text-4xl mb-2">🎮</div>
           <div>{bossName}</div>
@@ -112,11 +113,11 @@ function BossImageDisplay({ boss, bossName }: { boss: Boss; bossName: string }) 
   }
 
   return (
-    <div className="relative mb-3 bg-gray-900 rounded flex items-center justify-center" style={{ minHeight: '128px' }}>
+    <div className="relative mb-2 bg-gray-900 rounded flex items-center justify-center" style={{ minHeight: '112px' }}>
       <img
         src={imageSrc || undefined}
         alt={bossName}
-        className="w-full h-32 object-contain rounded"
+        className="w-full h-28 object-contain rounded"
         onError={handleError}
       />
     </div>
@@ -144,6 +145,11 @@ export default function BossesPage() {
   const [pinnedBossIds, setPinnedBossIds] = useState<Map<string, Set<number>>>(new Map()); // character_id -> Set<boss_id>
   const [showMoreBossesModal, setShowMoreBossesModal] = useState(false);
   const MAX_PINNED_BOSSES = 14;
+  const getLocalNowISO = () => {
+    const now = new Date();
+    return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString();
+  };
+  const getHeroicCrystalValue = (boss: Boss) => boss.crystal_meso || 0;
 
   useEffect(() => {
     loadData();
@@ -204,7 +210,13 @@ export default function BossesPage() {
       // Load bosses
       const bossesResponse = await api.getBosses(filterResetType);
       console.log('Loaded bosses:', bossesResponse.bosses.length, 'for reset type:', filterResetType);
-      setBosses(bossesResponse.bosses);
+      const sortedBosses = [...bossesResponse.bosses].sort((a, b) => {
+        const crystalA = a.crystal_meso ?? 0;
+        const crystalB = b.crystal_meso ?? 0;
+        if (crystalA !== crystalB) return crystalB - crystalA; // Highest value first
+        return (a.sort_order ?? 0) - (b.sort_order ?? 0);
+      });
+      setBosses(sortedBosses);
 
       // Load progress for current reset type
       const progress = await api.getWeeklyProgress(undefined, filterResetType);
@@ -236,7 +248,7 @@ export default function BossesPage() {
       charsResponse.characters.forEach(character => {
         const charSettingsMap = new Map<number, BossSettings>();
         
-        bossesResponse.bosses.forEach(boss => {
+        sortedBosses.forEach(boss => {
           // Check for existing run for this character
           const existingRun = Array.from(runsMap.values()).find(
             r => r.boss_id === boss.id && r.character_id === character.id
@@ -290,6 +302,8 @@ export default function BossesPage() {
     const storedKey = `boss_${characterId}_${bossId}_${filterResetType}`;
     localStorage.setItem(storedKey, JSON.stringify({
       party_size: settings.party_size,
+      cleared: settings.cleared,
+      run_id: settings.run_id,
     }));
   }
 
@@ -324,31 +338,37 @@ export default function BossesPage() {
           character_id: characterId,
           party_size: settings.party_size,
           is_clear: true,
-          cleared_at: new Date().toISOString(),
+          cleared_at: getLocalNowISO(),
         };
         const newRun = await api.createBossRun(runData);
         
-        // Update settings
+        // Update settings and local runs
         saveBossSettings(characterId, bossId, {
           ...settings,
           cleared: true,
           run_id: newRun.id,
         });
+        const newRuns = new Map(existingRuns);
+        newRuns.set(bossId, newRun);
+        setExistingRuns(newRuns);
       } else {
         // Delete boss run
         if (settings.run_id) {
           await api.deleteBossRun(settings.run_id);
         }
         
-        // Update settings
+        // Update settings and local runs
         saveBossSettings(characterId, bossId, {
           ...settings,
           cleared: false,
           run_id: undefined,
         });
+        const newRuns = new Map(existingRuns);
+        newRuns.delete(bossId);
+        setExistingRuns(newRuns);
       }
       
-      // Reload progress
+      // Reload progress to keep summary in sync
       const progress = await api.getWeeklyProgress(undefined, filterResetType);
       setWeeklyProgress(progress);
     } catch (error: any) {
@@ -361,14 +381,17 @@ export default function BossesPage() {
     const settings = charSettings?.get(bossId);
     if (!settings) return;
 
-    const updated = { ...settings, [field]: value };
+    const safeValue = Math.max(1, Math.min(6, value || 1));
+    const updated = { ...settings, [field]: safeValue };
     saveBossSettings(characterId, bossId, updated);
 
     // If boss is already cleared, update the run
     if (settings.cleared && settings.run_id) {
-      api.updateBossRun(settings.run_id, {
-        party_size: value,
-      }).catch(err => console.error('Failed to update run:', err));
+      api
+        .updateBossRun(settings.run_id, {
+          party_size: safeValue,
+        })
+        .catch((err) => console.error('Failed to update run:', err));
     }
   }
 
@@ -379,6 +402,12 @@ export default function BossesPage() {
     
     const charBossIds = Array.from(charSettings.keys());
     return bosses.filter(boss => charBossIds.includes(boss.id));
+  }
+
+  function getPartySizeForBoss(characterId: string, bossId: number): number {
+    const charSettings = bossSettings.get(characterId);
+    const settings = charSettings?.get(bossId);
+    return Math.max(settings?.party_size || 1, 1);
   }
 
   // Group bosses by name for a character
@@ -523,8 +552,9 @@ export default function BossesPage() {
             charBosses.forEach(boss => {
               const cleared = isBossCleared(selectedCharacter, boss.id);
               if (cleared) {
-                totalCrystals += boss.crystal_meso || 0;
-                totalMeso += boss.crystal_meso || 0;
+                const share = Math.floor(getHeroicCrystalValue(boss) / getPartySizeForBoss(selectedCharacter, boss.id));
+                totalCrystals += share;
+                totalMeso += share;
               }
             });
           } else {
@@ -536,8 +566,9 @@ export default function BossesPage() {
                 const cleared = isBossCleared(character.id, boss.id);
                 if (cleared) {
                   clearedCount++;
-                  totalCrystals += boss.crystal_meso || 0;
-                  totalMeso += boss.crystal_meso || 0;
+                  const share = Math.floor(getHeroicCrystalValue(boss) / getPartySizeForBoss(character.id, boss.id));
+                  totalCrystals += share;
+                  totalMeso += share;
                 }
               });
             });
@@ -566,11 +597,11 @@ export default function BossesPage() {
                   <p className="text-2xl font-bold text-yellow-400">{totalBosses - clearedCount}</p>
                 </div>
                 <div className="bg-gray-700 rounded p-4">
-                  <p className="text-gray-400 text-sm mb-1">Crystals</p>
+                  <p className="text-gray-400 text-sm mb-1">Crystals (per member)</p>
                   <p className="text-2xl font-bold text-white">{totalCrystals.toLocaleString()}</p>
                 </div>
                 <div className="bg-gray-700 rounded p-4">
-                  <p className="text-gray-400 text-sm mb-1">Meso Income</p>
+                  <p className="text-gray-400 text-sm mb-1">Meso income</p>
                   <p className="text-2xl font-bold text-white">{totalMeso.toLocaleString()}</p>
                 </div>
               </div>
@@ -742,7 +773,10 @@ export default function BossesPage() {
                         <img
                           src={character.character_icon_url}
                           alt={character.character_name}
-                          className="w-20 h-20 rounded-full border-2 border-gray-600"
+                          className="w-20 h-20 rounded-full border-2 border-gray-600 object-contain bg-gray-900"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/bosses/default.png';
+                          }}
                         />
                       ) : (
                         <div className="w-20 h-20 rounded-full border-2 border-gray-600 bg-gray-700 flex items-center justify-center">
@@ -794,12 +828,14 @@ export default function BossesPage() {
                           const settings = charSettings?.get(activeBoss.id);
                           const isCleared = isBossCleared(selectedCharacter, activeBoss.id);
                           const isPinned = (pinnedBossIds.get(selectedCharacter) || new Set()).has(activeBoss.id);
+                          const partySize = settings?.party_size || 1;
+                          const perMemberCrystal = Math.floor(getHeroicCrystalValue(activeBoss) / Math.max(partySize, 1));
                           
                           return (
                             <div
                               key={bossName}
                               onClick={() => handleToggleBoss(selectedCharacter, activeBoss.id, !isCleared)}
-                              className={`bg-gray-800 rounded-lg p-4 border-2 transition-all relative cursor-pointer hover:border-gray-600 ${
+                              className={`bg-gray-800 rounded-lg p-3 border-2 transition-all relative cursor-pointer hover:border-gray-600 ${
                                 isCleared ? 'border-green-500 bg-green-900/20' : 'border-gray-700'
                               }`}
                             >
@@ -872,6 +908,10 @@ export default function BossesPage() {
                                   : 'bg-gray-700 text-gray-300'
                               }`}>
                                 {isCleared ? '✓ Cleared' : 'Click to Clear'}
+                              </div>
+                              
+                              <div className="text-xs text-gray-400 text-center mb-2">
+                                Crystal: {getHeroicCrystalValue(activeBoss).toLocaleString()} • Per member: {perMemberCrystal.toLocaleString()} • Party {partySize}
                               </div>
                               
                               {/* Party Size */}

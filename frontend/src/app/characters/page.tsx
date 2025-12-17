@@ -20,6 +20,8 @@ export default function CharactersPage() {
     level: undefined,
     is_main: false,
   });
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [savingOrder, setSavingOrder] = useState(false);
 
   useEffect(() => {
     loadCharacters();
@@ -115,6 +117,37 @@ export default function CharactersPage() {
     }
   }
 
+  function reorderCharacters(list: Character[], fromId: string, toId: string): Character[] {
+    const updated = [...list];
+    const fromIndex = updated.findIndex((c) => c.id === fromId);
+    const toIndex = updated.findIndex((c) => c.id === toId);
+    if (fromIndex === -1 || toIndex === -1) return list;
+    const [moved] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, moved);
+    return updated;
+  }
+
+  async function persistOrder(newOrder: Character[]) {
+    setSavingOrder(true);
+    try {
+      await api.reorderCharacters(newOrder.map((c) => c.id));
+    } catch (error: any) {
+      console.error('Failed to save character order:', error);
+      alert(error.response?.data?.detail || 'Failed to save order');
+      await loadCharacters();
+    } finally {
+      setSavingOrder(false);
+    }
+  }
+
+  async function handleDrop(targetId: string) {
+    if (!draggingId || draggingId === targetId) return;
+    const newOrder = reorderCharacters(characters, draggingId, targetId);
+    setCharacters(newOrder);
+    setDraggingId(null);
+    await persistOrder(newOrder);
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -165,6 +198,7 @@ export default function CharactersPage() {
           <div>
             <h2 className="text-3xl font-bold text-white mb-2">Characters</h2>
             <p className="text-gray-400">Manage your MapleStory characters</p>
+            <p className="text-gray-500 text-sm">Drag cards to reorder</p>
           </div>
           <button
             onClick={() => setShowForm(!showForm)}
@@ -173,6 +207,9 @@ export default function CharactersPage() {
             {showForm ? 'Cancel' : '+ Add Character'}
           </button>
         </div>
+        {savingOrder && (
+          <div className="mb-4 text-sm text-blue-300">Saving order…</div>
+        )}
 
         {showForm && (
           <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
@@ -322,7 +359,15 @@ export default function CharactersPage() {
             characters.map((character) => (
               <div
                 key={character.id}
-                className="bg-gray-800 rounded-lg p-6 border border-gray-700"
+                draggable
+                onDragStart={() => setDraggingId(character.id)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => handleDrop(character.id)}
+                onDragEnd={() => setDraggingId(null)}
+                className={`bg-gray-800 rounded-lg p-6 border border-gray-700 cursor-move select-none transition-shadow ${
+                  draggingId === character.id ? 'ring-2 ring-blue-500 shadow-lg shadow-blue-500/20' : ''
+                }`}
+                title="Drag to reorder"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-start gap-3">
@@ -330,7 +375,10 @@ export default function CharactersPage() {
                       <img
                         src={character.character_icon_url}
                         alt={character.character_name}
-                        className="w-16 h-16 rounded"
+                        className="w-16 h-16 rounded object-contain bg-gray-900"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/bosses/default.png';
+                        }}
                       />
                     )}
                     <div>

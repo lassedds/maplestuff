@@ -16,6 +16,7 @@ export interface Character {
   job: string | null;
   level: number | null;
   is_main: boolean;
+  sort_order: number;
   nexon_ocid: string | null;
   character_icon_url: string | null;
   created_at: string;

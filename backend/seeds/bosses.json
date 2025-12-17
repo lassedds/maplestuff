@@ -401,6 +401,22 @@
       "sort_order": 73
     },
     {
+      "name": "Kalos",
+      "difficulty": "Extreme",
+      "reset_type": "weekly",
+      "party_size": 6,
+      "crystal_meso": 2500000000,
+      "sort_order": 74
+    },
+    {
+      "name": "Kaling",
+      "difficulty": "Extreme",
+      "reset_type": "weekly",
+      "party_size": 6,
+      "crystal_meso": 3000000000,
+      "sort_order": 75
+    },
+    {
       "name": "Akechi Mitsuhide",
       "difficulty": "Normal",
       "reset_type": "weekly",

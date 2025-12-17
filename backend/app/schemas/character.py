@@ -35,6 +35,7 @@ class CharacterResponse(CharacterBase):
 
     id: UUID
     user_id: UUID
+    sort_order: int
     nexon_ocid: str | None = None
     character_icon_url: str | None = None
     created_at: datetime
@@ -64,3 +65,9 @@ class CharacterListResponse(BaseModel):
     """List of characters response."""
     characters: list[CharacterResponse]
     total: int
+
+
+class CharacterReorderRequest(BaseModel):
+    """Request payload for reordering characters."""
+
+    character_ids: list[UUID]

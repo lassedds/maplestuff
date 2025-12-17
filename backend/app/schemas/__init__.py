@@ -17,6 +17,7 @@ from app.schemas.character import (
     CharacterListResponse,
     CharacterLookupRequest,
     CharacterLookupResponse,
+    CharacterReorderRequest,
 )
 from app.schemas.boss import (
     BossResponse,
@@ -78,6 +79,7 @@ __all__ = [
     "CharacterUpdate",
     "CharacterResponse",
     "CharacterListResponse",
+    "CharacterReorderRequest",
     "BossResponse",
     "BossWithDropsResponse",
     "BossListResponse",
