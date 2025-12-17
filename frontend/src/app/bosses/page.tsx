@@ -696,6 +696,7 @@ export default function BossesPage() {
                           <div className="space-y-1">
                             {charBosses.slice(0, 15).map((boss) => {
                               const cleared = isBossCleared(character.id, boss.id);
+                              const bossPartySize = getPartySizeForBoss(character.id, boss.id);
                               return (
                                 <div
                                   key={boss.id}
@@ -722,9 +723,10 @@ export default function BossesPage() {
                                       </svg>
                                     )}
                                   </div>
-                                  <span className={cleared ? 'line-through' : ''}>
+                                  <span className={`flex-1 ${cleared ? 'line-through' : ''}`}>
                                     {boss.name} {boss.difficulty ? `(${boss.difficulty})` : ''}
                                   </span>
+                                  <span className="text-gray-500 font-mono">{bossPartySize}/6</span>
                                 </div>
                               );
                             })}
@@ -874,32 +876,63 @@ export default function BossesPage() {
                                 {bossName}
                               </h3>
                               
-                              {/* Difficulty Dropdown */}
-                              <select
-                                value={activeBoss?.difficulty || 'Normal'}
-                                onChange={(e) => {
-                                  e.stopPropagation();
-                                  const selectedBoss = bossVariants.find(b => (b.difficulty || 'Normal') === e.target.value);
-                                  if (selectedBoss) {
-                                    const oldSettings = settings;
-                                    const newSettings: BossSettings = {
-                                      boss_id: selectedBoss.id,
-                                      character_id: selectedCharacter,
-                                      party_size: oldSettings?.party_size || 1,
-                                      cleared: false,
-                                    };
-                                    saveBossSettings(selectedCharacter, selectedBoss.id, newSettings);
-                                  }
-                                }}
-                                onClick={(e) => e.stopPropagation()}
-                                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-white text-xs mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                              >
-                                {bossVariants.map(boss => (
-                                  <option key={boss.id} value={boss.difficulty || 'Normal'}>
-                                    {boss.difficulty || 'Normal'}
-                                  </option>
-                                ))}
-                              </select>
+                              {/* Difficulty & Party Size Dropdowns - Side by Side */}
+                              <div className="flex gap-1 mb-2">
+                                <select
+                                  value={activeBoss?.difficulty || 'Normal'}
+                                  onChange={(e) => {
+                                    e.stopPropagation();
+                                    const selectedBoss = bossVariants.find(b => (b.difficulty || 'Normal') === e.target.value);
+                                    if (selectedBoss) {
+                                      const oldSettings = settings;
+                                      const newSettings: BossSettings = {
+                                        boss_id: selectedBoss.id,
+                                        character_id: selectedCharacter,
+                                        party_size: oldSettings?.party_size || 1,
+                                        cleared: false,
+                                      };
+                                      saveBossSettings(selectedCharacter, selectedBoss.id, newSettings);
+                                    }
+                                  }}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="flex-1 bg-gray-700 border border-gray-600 rounded px-2 py-1 text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                  {bossVariants.map(boss => (
+                                    <option key={boss.id} value={boss.difficulty || 'Normal'}>
+                                      {boss.difficulty || 'Normal'}
+                                    </option>
+                                  ))}
+                                </select>
+
+                                {/* Party Size Dropdown */}
+                                <select
+                                  value={settings?.party_size || 1}
+                                  onChange={(e) => {
+                                    e.stopPropagation();
+                                    const newPartySize = parseInt(e.target.value) || 1;
+                                    if (!settings) {
+                                      saveBossSettings(selectedCharacter, activeBoss.id, {
+                                        boss_id: activeBoss.id,
+                                        character_id: selectedCharacter,
+                                        party_size: newPartySize,
+                                        cleared: false,
+                                      });
+                                    } else {
+                                      handleUpdateSettings(selectedCharacter, activeBoss.id, 'party_size', newPartySize);
+                                    }
+                                  }}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="w-16 bg-gray-700 border border-gray-600 rounded px-1 py-1 text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  title="Party size"
+                                >
+                                  <option value={1}>1</option>
+                                  <option value={2}>2</option>
+                                  <option value={3}>3</option>
+                                  <option value={4}>4</option>
+                                  <option value={5}>5</option>
+                                  <option value={6}>6</option>
+                                </select>
+                              </div>
                               
                               {/* Cleared Status Indicator */}
                               <div className={`w-full py-2 rounded-lg text-sm font-semibold text-center mb-2 ${
@@ -910,37 +943,9 @@ export default function BossesPage() {
                                 {isCleared ? '✓ Cleared' : 'Click to Clear'}
                               </div>
                               
-                              <div className="text-xs text-gray-400 text-center mb-2">
-                                Crystal: {getHeroicCrystalValue(activeBoss).toLocaleString()} • Per member: {perMemberCrystal.toLocaleString()} • Party {partySize}
+                              <div className="text-xs text-gray-400 text-center">
+                                {perMemberCrystal.toLocaleString()} meso ({partySize}/6)
                               </div>
-                              
-                              {/* Party Size Dropdown */}
-                              <select
-                                value={settings?.party_size || 1}
-                                onChange={(e) => {
-                                  e.stopPropagation();
-                                  const partySize = parseInt(e.target.value) || 1;
-                                  if (!settings) {
-                                    saveBossSettings(selectedCharacter, activeBoss.id, {
-                                      boss_id: activeBoss.id,
-                                      character_id: selectedCharacter,
-                                      party_size: partySize,
-                                      cleared: false,
-                                    });
-                                  } else {
-                                    handleUpdateSettings(selectedCharacter, activeBoss.id, 'party_size', partySize);
-                                  }
-                                }}
-                                onClick={(e) => e.stopPropagation()}
-                                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
-                              >
-                                <option value={1}>Solo (1)</option>
-                                <option value={2}>Duo (2)</option>
-                                <option value={3}>3 Players</option>
-                                <option value={4}>4 Players</option>
-                                <option value={5}>5 Players</option>
-                                <option value={6}>Full Party (6)</option>
-                              </select>
                             </div>
                           );
                         })}
